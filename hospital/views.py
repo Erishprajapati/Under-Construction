@@ -25,4 +25,21 @@ def patient_create(request): #to create the patient if anyone arrives
             return render(request, 'patient_form.html', {'form': form})
             
 
-
+def patient_update(request,pk): #to update the patient
+    patient = get_object_or_404(Patient, pk=pk)
+    
+    if request.method == 'POST':
+        form = Information(request.POST, instance = patient)
+        if form.is_valid():
+            form.save()#form valid == form.
+        else:
+            form = Information(instance = patient)
+            return render(request, 'patient_form.html', {'form': form})
+        
+def patient_delete(request,pk):
+    patient = get_object_or_404(Patient, pk=pk)
+    if request.method == 'POST':
+        patient.delete()
+        return redirect('patient_list')
+    return render(request, 'patient_confirm_delete.html', {'patient': patient})
+    
