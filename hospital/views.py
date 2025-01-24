@@ -47,3 +47,9 @@ def dashboard_view(request):
     patients = Patient.objects.all()
     return render(request, 'hospital/dashboard.html',
                   {'patients': patients,}) # Render the dashboard template
+    
+def patient_form(request):
+    return render(request, 'hospital/patient_form.html')
+
+def patient_delete(request):
+    return render(request, 'hospital/patient_confirm_delete.html')
