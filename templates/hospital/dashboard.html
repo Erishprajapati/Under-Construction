@@ -1,0 +1,38 @@
+{% extends "hospital/base.html" %}
+import models from hospital.models
+{% block body %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Sn</th>
+        <th scope="col">Patients</th>
+        <th scope="col">Doctor</th>
+        <th scope="col">Ongoing Treatments</th>
+        <th scope="col">Available beds</th>
+        <th scope="col">Discharge</th>
+       <button>Status</button>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr>
+    </tbody>
+  </table>
+  
+{% endblock body %}
