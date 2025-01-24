@@ -1,38 +1,30 @@
 {% extends "hospital/base.html" %}
-import models from hospital.models
+
 {% block body %}
 <table class="table">
     <thead>
-      <tr>
-        <th scope="col">Sn</th>
-        <th scope="col">Patients</th>
-        <th scope="col">Doctor</th>
-        <th scope="col">Ongoing Treatments</th>
-        <th scope="col">Available beds</th>
-        <th scope="col">Discharge</th>
-       <button>Status</button>
-
-      </tr>
+        <tr>
+            <th scope="col">Sn</th>
+            <th scope="col">Patients</th>
+            <th scope="col">Doctor</th>
+            <th scope="col">Ongoing Treatments</th>
+            <th scope="col">Available beds</th>
+            <th scope="col">Discharge</th>
+            <th scope="col">Status</th>
+        </tr>
     </thead>
     <tbody>
+      {% for patient in patients %}
       <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ patient.name }}</td>
+        <td>{{ patient.doctor.name }}</td>
+        <td>{{ patient.treatment.name }}</td>
+        <td>{{ patient.bed.number }}</td>
+        <td>{{ patient.discharge_date }}</td>
+        <td>{{ patient.status }}</td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
+      {% endfor %}
     </tbody>
-  </table>
-  
+</table>
 {% endblock body %}

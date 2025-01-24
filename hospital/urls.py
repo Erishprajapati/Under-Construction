@@ -9,9 +9,8 @@ urlpatterns = [
     path('patients/<int:pk>', patient_update, name = 'patient_update'),
     path('patients/<int:pk>', patient_delete, name = 'patient_delete'),
     
-<<<<<<< HEAD
+
     #new url path
     path('dashboard/', dashboard_view, name = 'dashboard')
-=======
->>>>>>> b7c799f11c8bbc13508e7c543222b90aebdce612
 ]
+
