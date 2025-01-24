@@ -8,9 +8,15 @@ class Patient(models.Model):
         ('O', 'Other'),
         ('U', 'Undisclosed'), #If user doesnt select gender it will be selected as undisclosed
     ]
+    STATUS = [
+        ('Ongoing', 'Ongoing'),
+        ('Pending', 'Pending'),
+        ('Completed', 'Completed'),
+    ]
     name = models.CharField(max_length=100)
     gender = models.CharField(max_length = 1,  choices = GENDER_CHOICES, default='U')
     number = models.CharField(max_length=10)
+    status = models.CharField(max_length=20, choices=STATUS, default = "Pending")
     
     def __str__(self): #it converts object to string
         return self.name
@@ -41,10 +47,6 @@ class Treatments(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS)  # Use `choices` here
 
-    def __str__(self):
-        return f"Treatment for {self.patient} by doctor {self.doctor}"
-
-    
     def __str__(self):
         return f"Treatment for {self.patient} by doctor {self.doctor}"
     
