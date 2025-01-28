@@ -10,42 +10,46 @@ from rest_framework.decorators import api_view
 
 # Create your views here.
 #serialzer code
+
+#this patient_list helps to get all the list of patient admitted in hospital
+@api_view(['GET'])
 def patient_list(request):
     patients = Patient.objects.all()
     serializer = PatientSerializer(patients, many = True)
     return Response(serializer.data)
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def patient_detail(request, pk):
-    patient = get_object_or_404(Patient, pk=pk)
-    return render(request, 'patient_detail.html', {'patient': patient})
+    try:
+        patient = Patient.objects.get(pk = pk)
+        serializer = PatientSerializer(patient)
+        return Response(serializer.data) 
+    except Patient.DoesNotExist:
+        return Response({'error': 'Patient doesnt not exist'}, status = 404)
 
+@api_view(['POST'])
 def patient_create(request):  # To create a patient if anyone arrives
-    if request.method == 'POST':  # Using the POST method
-        form = Information(request.POST)  # If POST method is used, it sends data to server
-        if form.is_valid():  # If form contains valid data (name, number, gender)
-            form.save()  # Save the form data
-            return redirect('patient_list')  # Redirect to the patient list page
+    serializer = PatientSerializer(data = request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
     else:
-        form = Information()  # If it's a GET request, just show an empty form
-    return render(request, 'patient_form.html', {'form': form})
-
+        return Response(serializer.errors)
+    
+@api_view(['PUT'])
 def patient_update(request, pk):  # To update the patient
-    patient = get_object_or_404(Patient, pk=pk)  # Get the patient object or 404 if not found
-    if request.method == 'POST':
-        form = Information(request.POST, instance=patient)  # Prepopulate form with patient data
-        if form.is_valid():
-            form.save()  # Save the updated patient data
-            return redirect('patient_list')  # Redirect to the patient list page
-    else:
-        form = Information(instance=patient)  # Prepopulate form with patient data for GET request
-    return render(request, 'patient_form.html', {'form': form})
+   patient = Patient.objects.get(id = pk)
+   serializer = PatientSerializer(instance = patient, data=request.data)
+   if serializer.is_valid():
+       serializer.save()
+       return Response(serializer.data)
+   return Response(serializer.errors)
 
+
+@api_view(['DELETE'])
 def patient_delete(request, pk):  # To delete the patient
-    patient = get_object_or_404(Patient, pk=pk)  # Get the patient object or 404 if not found
-    if request.method == 'POST':  # If POST request, delete the patient
-        patient.delete()
-        return redirect('patient_list')  # Redirect to the patient list page
-    return render(request, 'patient_confirm_delete.html', {'patient': patient})  # Show confirmation page
+    patient = Patient.objects.get(id = pk)
+    patient.delete()
+    return Response({"message": "patient deleted successfully"})
 
 # Dashboard view
 def dashboard_view(request):

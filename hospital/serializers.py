@@ -10,8 +10,9 @@
 from rest_framework import serializers
 from .models import Patient
 
-class PatientSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    name = serializers.CharField(max_length=100)
-    gender = serializers.ChoiceField(choices=Patient.GENDER_CHOICES, default='U')  # Use ChoiceField for choices
-    status = serializers.ChoiceField(choices=Patient.STATUS, default="Pending")   # Use ChoiceField here too
+class PatientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Patient
+        fields = '__all__'
+        
+    
