@@ -4,12 +4,17 @@ from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .form import Information
+from .serializers import *
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 # Create your views here.
+#serialzer code
 def patient_list(request):
-    patients = Patient.objects.all()  # This shows the name of all the patients
-    return render(request, 'patient_list.html', {'patients': patients})
-
+    patients = Patient.objects.all()
+    serializer = PatientSerializer(patients, many = True)
+    return Response(serializer.data)
+@api_view(['GET'])
 def patient_detail(request, pk):
     patient = get_object_or_404(Patient, pk=pk)
     return render(request, 'patient_detail.html', {'patient': patient})
