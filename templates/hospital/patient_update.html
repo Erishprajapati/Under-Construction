@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Patient</title>
+</head>
+<body>
+
+<h2>Update Patient Information</h2>
+
+<form id="update-form">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" value="{{ patient.name }}"><br><br>
+
+    <label for="gender">Gender:</label><br>
+    <select id="gender" name="gender">
+        <option value="M" {% if patient.gender == 'M' %}selected{% endif %}>Male</option>
+        <option value="F" {% if patient.gender == 'F' %}selected{% endif %}>Female</option>
+        <option value="U" {% if patient.gender == 'U' %}selected{% endif %}>Unknown</option>
+    </select><br><br>
+
+    <button type="submit">Update Patient</button>
+</form>
+
+<script>
+// JavaScript to handle form submission
+document.getElementById('update-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const patientId = 1; // Replace with the actual patient ID (e.g., fetched from URL or context)
+    const name = document.getElementById('name').value;
+    const gender = document.getElementById('gender').value;
+
+    // Prepare the data to send
+    const data = { name: name, gender: gender };
+
+    // Use fetch API to send a PATCH request
+    fetch(`/patients/${patientId}/`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(updatedPatient => {
+        console.log('Patient updated:', updatedPatient);
+        alert('Patient updated successfully!');
+        // Optionally redirect to another page
+        window.location.href = '/patients/';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while updating the patient.');
+    });
+});
+</script>
+
+</body>
+</html>

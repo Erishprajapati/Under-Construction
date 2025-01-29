@@ -2,14 +2,14 @@ from django.contrib import admin
 from django.urls import path
 from .views import *
 from . import views
+from .views import *
 
 urlpatterns = [
-    path('patients/', views.patient_list, name = 'patient_list'),
-    path('patients/<int:pk>/', views.patient_detail, name = 'patient_detail'),
-    path('patients/create/', views.patient_create, name = 'patient_create'),
-    path('patients/update/<int:pk>/', views.patient_update, name = 'patient_update'),
-    path('patients/delete/<int:pk>/', views.patient_delete, name = 'patient_delete'),
+    path('patients/', views.patient_list, name='patient_list'),  # Ensure this view lists patients
+     path('patients/create/', PatientCreateAPIView.as_view(), name='patient_create'),  # For POST (Create)
+    path('patients/<int:pk>/', PatientDetailAPIView.as_view(), name='patient_detail'),
+    path('patients/update/<int:pk>/', PatientDetailAPIView.as_view(), name='patient_update'),  # For PUT (Update)
+    path('patients/delete/<int:pk>/', PatientDetailAPIView.as_view(), name='patient_delete'),  # For DELETE (Delete)
 
-    #new url path
-    path('dashboard/', dashboard_view, name = 'dashboard')
+    path('dashboard/', dashboard_view, name='dashboard')  # Ensure this view is implemented
 ]
